@@ -10,7 +10,7 @@ class App extends React.Component {
   }
 
   AttendanceResult = () => {
-    this.setState({ isResult: true})
+    this.setState({ isResult: true })
   };
 
   render() {
