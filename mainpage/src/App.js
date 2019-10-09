@@ -9,40 +9,58 @@ class App extends React.Component {
 
   state = {
     isResult: false,
-    title: 'hi'
+    name: '',
+    time: '',
+    type: '',
   }
 
   getLoginResult = async () => {
     const {
       data: {
-        title
+        name,
+        time,
+        type
       }
     } = await axios.get(
-      "http://70.12.224.38:3000/index"
+      "http://172.30.1.13:4000"
     );
-    console.log("qweqweqweqwe : ",title);
-    
-    this.setState({ title });
+    console.log("qweqweqweqwe : ", name,time,type);
+
+    this.setState({ name,time,type });
   };
   componentDidMount() {
-    //this.getLoginResult();
+    this.getLoginResult();
+  }
+
+  componentDidUpdate() {
+    if(this.state.isResult === true) {
+    setTimeout(function () {
+      this.setState({ isResult: false })
+    }.bind(this), 5000)
+  }
   }
 
   AttendanceResult = () => {
-    this.setState({ isResult: true})
+    this.setState({ isResult: true });
     this.getLoginResult();
   };
 
   render() {
-    const { isResult, title } = this.state;
+    const { isResult, name,time,type } = this.state;
     return (
       <div className="App">
         <center>
-          <h1>출근 관리 시스템</h1>
-          {isResult ? <AttendanceResult /> : <Attendance />}
-          <input name="Attendance_NFC" type="text" placeholder="NFC" />
+          <div class="box">
+          <p class="title">출근 관리 시스템</p>
+          {isResult ?
+          <AttendanceResult
+          name={name}
+          time={time}
+          type={type}
+          /> : <Attendance />}
+          <input name="Attendance_NFC" type="text" placeholder="NFC" autofocus="autofocus" />
           <button onClick={this.AttendanceResult}>Check</button>
-          <p>{title}</p>
+          </div>
         </center>
       </div>
     );
